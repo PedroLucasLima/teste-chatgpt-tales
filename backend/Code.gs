@@ -7,7 +7,7 @@ const TAB = { projetos: 'Projetos', codigos: 'Codigos', avaliacoes: 'Avaliacoes'
 const MINIMO_RANKING = 5;
 function setupInicial() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const projetos = JSON.parse(CATALOG_JSON);
+  const projetos = CATALOG_JSON;
   ensureSheet_(ss, TAB.projetos, ['id','titulo','modalidade'], projetos.map(p => [p.id,p.titulo,p.modalidade]));
   ensureSheet_(ss, TAB.codigos, ['hash_codigo','habilitado','observacao'], []);
   ensureSheet_(ss, TAB.avaliacoes, ['id_requisicao','hash_codigo','id_projeto','criatividade','clareza','relevancia','demonstracao','nota_ponderada','timestamp','estado'], []);
@@ -47,7 +47,7 @@ function getPublicRanking() {
 function registrarVoto_(p) {
   const notas=p && p.notas || {}; const id=String(p && (p.projetoId||p.id_projeto) || '').trim(); const codigo=String(p && p.codigo || '').trim();
   if (!codigo || !id) throw new Error('Código e projeto são obrigatórios.');
-  const projetoIds=JSON.parse(CATALOG_JSON).map(x=>x.id); if(!projetoIds.includes(id)) throw new Error('Projeto inexistente.');
+  const projetoIds=CATALOG_JSON.map(x=>x.id); if(!projetoIds.includes(id)) throw new Error('Projeto inexistente.');
   const keys=['criatividade','clareza','relevancia','demonstracao'];
   keys.forEach(k=>{if(!Number.isInteger(notas[k])||notas[k]<1||notas[k]>5)throw new Error('Notas devem ser números inteiros de 1 a 5.');});
   const nota=Math.round((notas.criatividade*.30+notas.clareza*.30+notas.relevancia*.25+notas.demonstracao*.15)*100)/100;
@@ -71,4 +71,4 @@ function registrarVoto_(p) {
 function getConfig_(key) { const sh=SpreadsheetApp.getActive().getSheetByName(TAB.config); if(!sh)return ''; const rows=sh.getDataRange().getValues().slice(1); const row=rows.find(r=>r[0]===key); return row?String(row[1]):''; }
 function sha256_(value) { return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,value,Utilities.Charset.UTF_8).map(b=>(b<0?b+256:b).toString(16).padStart(2,'0')).join(''); }
 function json_(obj) { return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON); }
-function getProjectOptions() { return JSON.parse(CATALOG_JSON).map(p=>({id:p.id,titulo:p.titulo})); }
+function getProjectOptions() { return CATALOG_JSON.map(p=>({id:p.id,titulo:p.titulo})); }
