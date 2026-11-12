@@ -1,11 +1,7 @@
-# Auditoria do catálogo v1.0
+# Auditoria do catálogo no branch
 
-- Fonte de dados: `src/data/catalogo.json`, extraído sem reescrita do kit oficial recebido.
-- Integridade do pacote: hashes SHA-256 dos nove arquivos do kit conferidos; todos `OK`.
-- Validador oficial: `scripts-validar-catalogo.mjs` executado com Node.js; resultado `PASS`.
-- Contagem: 46 projetos únicos; 24 Mostra Nacional (`NAC-001` a `NAC-024`) e 22 Mostra de Extensão (`EXT-001` a `EXT-022`).
-- Campos obrigatórios: id, título, modalidade, área temática, data, início, fim, formato, local e fontes.
-- Grafia/acentuação: títulos exibidos diretamente do JSON; somente a função de busca normaliza acentos.
-- PDFs: presentes no kit (`fontes/trabalhos-mostra-nacional.pdf` e `fontes/trabalhos-mostra-nacional-extensao.pdf`). O catálogo já contém referência de arquivo e página por registro; a revisão visual independente de dez registros ainda precisa ser feita por uma pessoa da equipe.
-- Registros `AGROSENTINELA` e `TRAÇO VIVO`: mantidos como projetos distintos conforme a especificação, sem destaque ou peso especial.
-- Dados ausentes: nenhum resumo, autor, campus, imagem ou URL individual foi inventado.
+- 46 projetos e seus títulos/IDs/modalidades foram recuperados da lista do backend.
+- 24 projetos da Mostra Nacional e 22 da Mostra de Extensão.
+- Os metadados complementares (área temática e referências de página dos PDFs) ainda precisam ser restaurados do JSON original do kit. Por isso, a interface identifica a área como pendente e não inventa referências de página.
+- Horários, datas, local e formato seguem a programação consolidada no kit.
+- A revisão visual independente de dez registros contra os PDFs continua pendente.
